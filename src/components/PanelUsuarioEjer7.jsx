@@ -33,13 +33,12 @@ function PanelUsuario({ onClose }) {
     }, []);
 
     useEffect(() => {
-        const root = document.body;
-        root.classList.remove('light-theme', 'dark-theme');
+        document.body.classList.remove('light-theme', 'dark-theme');
 
         if (tema === 'dark') {
-            root.classList.add('dark-theme');
+            document.body.classList.add('dark-theme');
         } else {
-            root.classList.add('light-theme');
+            document.body.classList.add('light-theme');
         }
 
         localStorage.setItem('theme', tema);
@@ -71,8 +70,6 @@ function PanelUsuario({ onClose }) {
             <button onClick={onClose}>
                 Cerrar panel
             </button>
-
-            <p style={{ marginTop: '10px', fontSize: '12px' }}>*Revisa la consola para ver el mensaje de desmontaje.</p>
         </div>
     );
 
