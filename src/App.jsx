@@ -28,7 +28,7 @@ const EstilosEjer7 = () => (
 function App() {
   const [isPanelOpen, setIsPanelOpen] = useState(true);
 
-  const handleClosePanel = () => {
+  const manejarCerrarPanel = () => {
     setIsPanelOpen(false);
   };
 
@@ -43,7 +43,7 @@ function App() {
 
       <EstilosEjer7 />
       {isPanelOpen ? (
-        <PanelUsuario onClose={handleClosePanel} />
+        <PanelUsuario onClose={manejarCerrarPanel} />
       ) : (
         <button onClick={() => setIsPanelOpen(true)}>
           Abrir Panel de Usuario

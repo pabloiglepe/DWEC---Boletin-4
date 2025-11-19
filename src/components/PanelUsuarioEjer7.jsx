@@ -10,23 +10,25 @@ const fetchUserData = () => {
 
 
 function PanelUsuario({ onClose }) {
-    const [user, setUser] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [usuario, setUsuario] = useState(null);
+    const [estaCargando, setEstaCargando] = useState(true);
 
-    const initialTheme = localStorage.getItem('theme') || 'light';
-    const [theme, setTheme] = useState(initialTheme);
+    const temaInicial = localStorage.getItem('theme') || 'light';
+    const [tema, setTema] = useState(temaInicial);
 
     useEffect(() => {
-        const timeoutId = setTimeout(() => {
+        console.log("Panel montado");
+
+        const timeout = setTimeout(() => {
             fetchUserData().then(data => {
-                setUser(data);
-                setIsLoading(false);
+                setUsuario(data);
+                setEstaCargando(false);
             });
         }, 100);
 
         return () => {
             console.log('Panel desmontado');
-            clearTimeout(timeoutId);
+            clearTimeout(timeout);
         };
     }, []);
 
@@ -34,35 +36,36 @@ function PanelUsuario({ onClose }) {
         const root = document.body;
         root.classList.remove('light-theme', 'dark-theme');
 
-        if (theme === 'dark') {
+        if (tema === 'dark') {
             root.classList.add('dark-theme');
         } else {
             root.classList.add('light-theme');
         }
 
-        localStorage.setItem('theme', theme);
-    }, [theme]);
+        localStorage.setItem('theme', tema);
+    }, [tema]);
 
-    const toggleTheme = () => {
-        setTheme(tema => (tema === 'light' ? 'dark' : 'light'));
+    const cambiarTema = () => {
+        setTema(tema => (tema === 'light' ? 'dark' : 'light'));
     };
 
-    if (isLoading) {
+    if (estaCargando) {
         return <div>Cargando...</div>;
     }
 
     return (
         <div style={{
-            padding: '20px', border: '1px solid #ccc', borderRadius: '8px', background: theme === 'dark' ? '#000' : '#fff',
-            color: theme === 'dark' ? '#fff' : '#000'}}>
+            padding: '20px', border: '1px solid #ccc', borderRadius: '8px', background: tema === 'dark' ? '#000' : '#fff',
+            color: tema === 'dark' ? '#fff' : '#000'
+        }}>
             <h1>Aplicación Principal</h1>
             <h3>Panel de Usuario</h3>
-            <p><strong>Nombre:</strong> {user.name}</p>
-            <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>Tema actual:</strong> {theme}</p>
+            <p><strong>Nombre:</strong> {usuario.name}</p>
+            <p><strong>Email:</strong> {usuario.email}</p>
+            <p><strong>Tema actual:</strong> {tema}</p>
 
-            <button onClick={toggleTheme} style={{ marginRight: '10px' }}>
-                Cambiar a modo {theme === 'light' ? 'Oscuro' : 'Claro'}
+            <button onClick={cambiarTema} style={{ marginRight: '10px' }}>
+                Cambiar a modo {tema === 'light' ? 'Oscuro' : 'Claro'}
             </button>
 
             <button onClick={onClose}>
